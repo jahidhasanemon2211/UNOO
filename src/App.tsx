@@ -700,7 +700,6 @@ export default function App() {
                </div>
              </div>
            </div>
-         </div>
 
          {/* Bottom Action Area / Hand */}
          <div className="h-44 md:h-56 shrink-0 bg-black/60 border-t border-white/10 relative z-10 flex flex-col">
