@@ -218,12 +218,22 @@ export default function App() {
           ))}
         </div>
 
-        <div className="w-full max-w-md bg-[#1A1A1A]/80 backdrop-blur-xl border border-white/10 rounded-[40px] shadow-[0_0_50px_rgba(0,0,0,0.5)] p-8 relative z-10 overflow-hidden">
+        <div 
+          className="w-full max-w-md bg-[#1c1c1c] border-t border-l border-white/10 rounded-[40px] p-8 relative z-10 overflow-hidden"
+          style={{
+            boxShadow: '0 15px 0 #0b0b0b, 0 25px 50px rgba(0,0,0,0.8), inset 0 0 15px rgba(255,255,255,0.02)'
+          }}
+        >
           <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at center, white 1px, transparent 1px)', backgroundSize: '24px 24px' }}></div>
           
           <div className="relative z-10">
             <div className="flex justify-center mb-8">
-              <div className="bg-red-600 px-6 py-2 rounded-xl border-4 border-white font-black italic text-4xl shadow-xl transform -rotate-6 tracking-tighter">
+              <div 
+                className="bg-red-600 px-6 py-2 rounded-xl border-t-2 border-l-2 border-white font-black italic text-4xl transform -rotate-6 tracking-tighter"
+                style={{
+                  boxShadow: '3px 4px 0px #991b1b, 5px 6px 10px rgba(0,0,0,0.5)'
+                }}
+              >
                 UNO+
               </div>
             </div>
@@ -235,7 +245,7 @@ export default function App() {
                 </motion.div>
               )}
             </AnimatePresence>
-
+ 
             <form className="space-y-6">
               <div>
                 <label className="block text-[10px] uppercase tracking-[0.2em] text-white/50 mb-2 font-bold pl-2">Choose Nickname</label>
@@ -248,16 +258,19 @@ export default function App() {
                   className="w-full bg-white/5 border border-white/10 focus:border-white focus:ring-1 focus:ring-white rounded-2xl px-4 py-4 text-white placeholder-white/30 outline-none transition-all font-bold"
                 />
               </div>
-
+ 
               <div className="grid grid-cols-2 gap-4 pt-4 mt-2">
                 <button
                   onClick={handleCreateRoom}
                   type="button"
-                  className="bg-blue-600 hover:bg-blue-500 border border-white/20 text-white font-black italic tracking-widest py-4 px-4 rounded-2xl shadow-lg transform transition-transform active:scale-95 flex flex-col items-center justify-center gap-1"
+                  className="bg-blue-600 hover:bg-blue-500 border-t border-l border-white/20 text-white font-black italic tracking-widest py-4 px-4 rounded-2xl flex flex-col items-center justify-center gap-1 transition-all active:translate-y-[4px] active:shadow-[0_2px_0_#1d4ed8]"
+                  style={{
+                    boxShadow: '0 6px 0 #1d4ed8, 0 10px 15px rgba(0,0,0,0.5)'
+                  }}
                 >
                   <Users size={20} className="mb-1" /> CREATE
                 </button>
-                <div className="space-y-2 flex flex-col">
+                <div className="space-y-3 flex flex-col">
                   <input
                     type="text"
                     value={roomCodeInput}
@@ -269,7 +282,10 @@ export default function App() {
                   <button
                     onClick={handleJoinRoom}
                     type="button"
-                    className="w-full bg-white/10 hover:bg-white/20 border border-white/10 text-white font-black italic tracking-widest py-3 px-4 rounded-2xl flex items-center justify-center gap-2 transition-colors active:scale-95"
+                    className="w-full bg-white/10 hover:bg-white/20 border-t border-l border-white/10 text-white font-black italic tracking-widest py-3 px-4 rounded-2xl flex items-center justify-center gap-2 transition-all active:translate-y-[3px] active:shadow-[0_1px_0_#111]"
+                    style={{
+                      boxShadow: '0 4px 0 #111, 0 8px 12px rgba(0,0,0,0.4)'
+                    }}
                   >
                     JOIN
                   </button>
