@@ -50,7 +50,9 @@ export default function App() {
 
   useEffect(() => {
     const handleStateUpdate = (state: GameState, hand?: Card[]) => {
+      console.log('[Client] Received game_state_update:', state, 'hand:', hand);
       setGameState(prev => {
+        console.log('[Client] Setting new gameState. Previous:', prev?.status, 'New:', state.status);
         if (prev?.status !== 'finished' && state.status === 'finished') {
           audioSystem.playWin();
           
