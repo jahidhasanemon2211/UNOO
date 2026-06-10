@@ -375,9 +375,8 @@ export default function App() {
             </div>
           </div>
         </div>
-      </div>
-    );
-  }
+      );
+    }
 
   if (gameState.status === 'playing') {
     const isMyTurn = gameState.players[gameState.currentPlayerIndex]?.id === activeSocket.id;
