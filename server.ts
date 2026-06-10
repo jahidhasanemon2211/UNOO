@@ -25,13 +25,16 @@ async function startServer() {
     let currentRoomCode: string | null = null;
 
     const broadcastState = (room: RoomLogic) => {
+      console.log('[Server] Broadcasting state for room:', room.roomCode);
       for (const p of room.players) {
         const { state, myHand } = room.getStateForPlayer(p.id);
+        console.log('[Server] Emitting game_state_update to player:', p.id, 'with hand size:', myHand?.length);
         io.to(p.id).emit('game_state_update', state, myHand);
       }
     };
 
     socket.on('create_room', (nickname) => {
+      console.log('[Server] create_room event received from:', socket.id, 'nickname:', nickname);
       const code = Math.random().toString(36).substring(2, 8).toUpperCase();
       const room = new RoomLogic(code);
       room.onStateUpdate = () => broadcastState(room);
@@ -41,12 +44,15 @@ async function startServer() {
       rooms.set(code, room);
       
       try {
+        console.log('[Server] Adding player to room:', code);
         room.addPlayer(socket.id, nickname);
         currentRoomCode = code;
         socket.join(code);
+        console.log('[Server] Room created successfully. Code:', code);
         socket.emit('room_created', code);
         broadcastState(room);
       } catch (e: any) {
+        console.error('[Server] Error creating room:', e.message);
         socket.emit('error', e.message);
       }
     });
