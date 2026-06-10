@@ -323,11 +323,12 @@ export default function App() {
                       <button onClick={() => activeSocket.emit('add_bot', 1)} className="bg-purple-600 hover:bg-purple-500 text-white font-black py-2 px-4 rounded-full border-2 border-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.4)] transition-all text-xs uppercase transform active:scale-95">+1 BOT</button>
                       <button onClick={() => activeSocket.emit('add_bot', 4)} className="bg-purple-600 hover:bg-purple-500 text-white font-black py-2 px-4 rounded-full border-2 border-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.4)] transition-all text-xs uppercase transform active:scale-95">+4 BOTS</button>
                       <button onClick={() => activeSocket.emit('add_bot', 6)} className="bg-purple-600 hover:bg-purple-500 text-white font-black py-2 px-4 rounded-full border-2 border-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.4)] transition-all text-xs uppercase transform active:scale-95">+6 BOTS</button>
-                      <button onClick={() => activeSocket.emit('add_bot', 8)} className="bg-purple-600 hover:bg-purple-500 text-white font-black py-2 px-4 rounded-full border-2 border-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.4)] transition-all text-xs uppercase transform active:scale-95">+8 BOTS</button>
-                    </div>
-                    <button
+                      <button onClick={() => activeSocket.emit('add_bot', 8)} className="bg-purple-600 hover:bg-purple-500 text-white font                    <button
                       onClick={() => activeSocket.emit('start_game')}
-                      className="bg-green-500 hover:bg-green-400 text-black border-2 border-green-300 font-black italic text-xl tracking-widest py-4 px-12 w-full md:w-auto rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(34,197,94,0.3)] transition-transform active:scale-95 mt-2"
+                      className="bg-green-500 hover:bg-green-400 text-black border-t border-l border-white/20 font-black italic text-xl tracking-widest py-4 px-12 w-full md:w-auto rounded-full flex items-center justify-center transition-all active:translate-y-[4px] active:shadow-[0_2px_0_#15803d] mt-2"
+                      style={{
+                        boxShadow: '0 6px 0 #15803d, 0 10px 15px rgba(0,0,0,0.3)'
+                      }}
                     >
                       START GAME
                     </button>
@@ -339,7 +340,7 @@ export default function App() {
                 )}
               </div>
            </div>
-
+ 
            <div className="bg-[#1A1A1A] border border-white/10 rounded-[40px] p-8 shadow-2xl">
               <div className="flex justify-between items-end border-b border-white/10 pb-4 mb-6">
                 <h3 className="text-xl font-black italic tracking-widest uppercase">Players</h3>
@@ -350,7 +351,13 @@ export default function App() {
                   const avatarColors = ['bg-blue-600', 'bg-red-600', 'bg-yellow-500 text-black', 'bg-green-500', 'bg-purple-600', 'bg-orange-500', 'bg-pink-500', 'bg-teal-500', 'bg-indigo-600'];
                   const avatarColor = avatarColors[idx % avatarColors.length];
                   return (
-                    <div key={p.id} className="bg-white/5 border border-white/10 rounded-2xl p-4 flex flex-col items-center gap-3 relative">
+                    <div 
+                      key={p.id} 
+                      className="bg-[#242424] border-t border-l border-white/10 rounded-2xl p-4 flex flex-col items-center gap-3 relative hover:scale-105 transition-all duration-300"
+                      style={{
+                        boxShadow: '0 4px 0 #121212, 0 8px 12px rgba(0,0,0,0.5), inset 0 0 10px rgba(0,0,0,0.2)'
+                      }}
+                    >
                       {idx === 0 && <span className="absolute top-2 right-2 text-[8px] uppercase font-black tracking-widest text-yellow-400 bg-yellow-400/20 px-2 py-0.5 rounded shadow-sm">Host</span>}
                       {p.isBot && <span className="absolute top-2 left-2 text-[8px] uppercase font-black tracking-widest text-purple-400 bg-purple-400/20 px-2 py-0.5 rounded shadow-sm">BOT</span>}
                       <div className={`w-14 h-14 rounded-full flex items-center justify-center font-black text-xl border-4 border-white/20 shadow-lg ${avatarColor}`}>
@@ -358,6 +365,10 @@ export default function App() {
                       </div>
                       <span className="font-bold text-sm truncate w-full text-center tracking-wider">
                         {p.nickname} {p.id === activeSocket.id && <span className="text-white/40 ml-1">(You)</span>}
+                      </span>
+                    </div>
+                  );
+                })}          {p.nickname} {p.id === activeSocket.id && <span className="text-white/40 ml-1">(You)</span>}
                       </span>
                     </div>
                   );
