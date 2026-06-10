@@ -7,7 +7,9 @@ import { audioSystem } from './audio';
 import confetti from 'canvas-confetti';
 import { mockSocket } from './mockSocket';
 
-const realSocket: Socket<ServerToClientEvents, ClientToServerEvents> = io('/');
+const realSocket: Socket<ServerToClientEvents, ClientToServerEvents> = io('/', {
+  transports: ['websocket']
+});
 
 export default function App() {
   const [offlineMode, setOfflineMode] = useState(false);
