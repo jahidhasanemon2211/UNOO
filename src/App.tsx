@@ -159,9 +159,14 @@ export default function App() {
 
   const handleCreateRoom = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('[Client] handleCreateRoom clicked. Nickname:', nickname);
     audioSystem.init();
     audioSystem.resume();
-    if (!nickname.trim()) return setError('Nickname required');
+    if (!nickname.trim()) {
+      console.log('[Client] Nickname empty!');
+      return setError('Nickname required');
+    }
+    console.log('[Client] Emitting create_room event with activeSocket:', activeSocket.id);
     activeSocket.emit('create_room', nickname.trim());
   };
 
