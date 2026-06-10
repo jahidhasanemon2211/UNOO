@@ -8,7 +8,7 @@ import { ClientToServerEvents, ServerToClientEvents } from './src/types';
 
 async function startServer() {
   const app = express();
-  const PORT = process.env.PORT || 3002;
+  const PORT = process.env.PORT || 3008;
   
   const server = http.createServer(app);
   const io = new Server<ClientToServerEvents, ServerToClientEvents, {}, {}>(server, {
