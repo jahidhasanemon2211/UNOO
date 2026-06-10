@@ -385,9 +385,22 @@ export default function App() {
       const dims = customDims || "w-16 h-24 md:w-[90px] md:h-[135px]";
 
       if (!card) return (
-         <div className={`${dims} shrink-0 bg-[#2A2A2A] rounded-xl border-[4px] border-white/10 flex items-center justify-center relative overflow-hidden shadow-[0_10px_20px_rgba(0,0,0,0.5)]`} style={{ opacity: 0.5, transform: 'translateZ(0)' }}>
-            <div className="absolute inset-1.5 border-2 border-white/5 rounded-lg"></div>
-            <div className="text-xl md:text-3xl font-black italic text-white/20 rotate-45 drop-shadow-md">UNO</div>
+         <div 
+           className={`${dims} shrink-0 bg-[#7f1d1d] rounded-[8px] md:rounded-[12px] border-[3px] md:border-[5px] border-white flex flex-col items-center justify-center relative overflow-hidden`} 
+           style={{ 
+             transformStyle: 'preserve-3d', 
+             perspective: '1000px', 
+             boxShadow: '0 1px 0 #bbb, 0 2px 0 #aaa, 0 3px 0 #999, 0 5px 8px rgba(0,0,0,0.6), inset 0 0 15px rgba(0,0,0,0.4)' 
+           }}
+         >
+            {/* Card back pattern */}
+            <div className="absolute inset-1 border border-yellow-500/20 rounded-lg pointer-events-none"></div>
+            <div className="w-[85%] h-[65%] rounded-[50%] bg-red-600 flex items-center justify-center border-2 md:border-4 border-yellow-500 shadow-xl rotate-[-20deg] relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-white/10 pointer-events-none"></div>
+              <div className="text-xl md:text-3xl font-black italic text-white drop-shadow-[2px_3px_0px_rgba(0,0,0,0.5)] tracking-tighter rotate-[20deg]">UNO</div>
+            </div>
+            {/* Gloss sheen */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-white/5 pointer-events-none z-10"></div>
          </div>
       );
       
@@ -399,11 +412,28 @@ export default function App() {
            layoutId={`card-${card.id}`}
            initial={{ opacity: 0, scale: 0.8 }}
            animate={{ opacity: 1, scale: 1 }}
-           whileHover={onClick && isPlayable ? { scale: 1.1, y: -20, rotateX: 20, rotateZ: (Math.random() - 0.5) * 5 } : {}}
+           whileHover={onClick && isPlayable ? { 
+             scale: 1.12, 
+             y: -25, 
+             rotateX: 20, 
+             rotateY: 10, 
+             rotateZ: -2,
+             zIndex: 100,
+             transition: { type: 'spring', stiffness: 300, damping: 18 }
+           } : {}}
            onClick={onClick && isPlayable ? onClick : undefined}
-           className={`${dims} shrink-0 cursor-${onClick && isPlayable ? 'pointer' : 'default'} rounded-[8px] md:rounded-[12px] border-[4px] md:border-[6px] border-white relative overflow-hidden flex flex-col items-center justify-center ${getCardColors(card.color)} ${!isPlayable && onClick ? 'opacity-70 brightness-50 cursor-not-allowed filter transform-none' : ''}`}
-           style={{ transformStyle: 'preserve-3d', perspective: '1000px', boxShadow: '-2px 4px 0px rgba(255,255,255,0.2), 0 10px 20px rgba(0,0,0,0.5), inset 0 0 10px rgba(0,0,0,0.3)' }}
+           className={`${dims} shrink-0 cursor-${onClick && isPlayable ? 'pointer' : 'default'} rounded-[8px] md:rounded-[12px] border-[3px] md:border-[5px] border-white relative overflow-hidden flex flex-col items-center justify-center ${getCardColors(card.color)} ${!isPlayable && onClick ? 'opacity-60 brightness-40 cursor-not-allowed filter transform-none' : ''}`}
+           style={{ 
+             transformStyle: 'preserve-3d', 
+             perspective: '1000px', 
+             boxShadow: onClick && isPlayable 
+               ? '0 1px 0 #ddd, 0 2px 0 #ccc, 0 3px 0 #bbb, 0 4px 0 #aaa, 0 6px 10px rgba(0,0,0,0.4), inset 0 0 12px rgba(0,0,0,0.2)' 
+               : '0 1px 0 #bbb, 0 2px 0 #aaa, 0 3px 0 #999, 0 4px 6px rgba(0,0,0,0.5), inset 0 0 10px rgba(0,0,0,0.25)'
+           }}
         >
+          {/* Card gloss sheen overlay */}
+          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-white/5 pointer-events-none z-10 mix-blend-overlay"></div>
+          
           {isWild ? (
              <>
                <div className="absolute top-1 left-1.5 md:top-1 md:left-2 flex flex-col gap-[2px]">
@@ -420,27 +450,27 @@ export default function App() {
              </>
           )}
 
-          <div className="w-[80%] h-[60%] rounded-[50%] bg-white flex items-center justify-center shadow-inner drop-shadow-xl rotate-[-20deg] border border-black/10 relative overflow-hidden" style={{ transform: 'rotate(-20deg) translateZ(10px)' }}>
+          <div className="w-[82%] h-[62%] rounded-[50%] bg-white flex items-center justify-center shadow-[inset_0_2px_5px_rgba(0,0,0,0.4)] rotate-[-20deg] border border-black/10 relative overflow-hidden" style={{ transform: 'rotate(-20deg) translateZ(10px)' }}>
             {isWild ? (
-               <div className="w-[92%] h-[92%] rounded-[50%] overflow-hidden flex flex-wrap border-[3px] border-white">
+               <div className="w-[92%] h-[92%] rounded-[50%] overflow-hidden flex flex-wrap border-[2px] border-white">
                  <div className="w-1/2 h-1/2 bg-[#E32126]"></div>
                  <div className="w-1/2 h-1/2 bg-[#0070B9]"></div>
                  <div className="w-1/2 h-1/2 bg-[#FCD800]"></div>
                  <div className="w-1/2 h-1/2 bg-[#3AA844]"></div>
                </div>
             ) : (
-               <div className="rotate-[20deg]" style={{WebkitTextStroke: '1px black', color: colorHexMap[card.color]}}>
-                 <span className="text-3xl md:text-[50px] font-black italic drop-shadow-sm leading-none">{dispVal}</span>
+               <div className="rotate-[20deg] text-[#1F2937] flex items-center justify-center">
+                 <span className="text-3xl md:text-[48px] font-black italic drop-shadow-[1px_2px_0px_rgba(0,0,0,0.15)] leading-none">{dispVal}</span>
                </div>
             )}
           </div>
           
           {isPlayable && (
-             <div className="absolute top-[50%] left-1/2 -translate-x-1/2 -translate-y-1/2 bg-yellow-400 text-black px-1.5 py-[1px] md:px-2 md:py-[2px] rounded text-[7px] md:text-[9px] font-black italic tracking-widest shadow-2xl whitespace-nowrap hidden md:block" style={{ transform: 'translate(-50%, -50%) translateZ(20px) rotate(-10deg)', border: '1px solid black' }}>PLAYABLE</div>
+             <div className="absolute top-[50%] left-1/2 -translate-x-1/2 -translate-y-1/2 bg-yellow-400 text-black px-1.5 py-[1px] md:px-2 md:py-[2px] rounded text-[7px] md:text-[9px] font-black italic tracking-widest shadow-2xl whitespace-nowrap hidden md:block border border-black z-20" style={{ transform: 'translate(-50%, -50%) translateZ(20px) rotate(-10deg)' }}>PLAYABLE</div>
           )}
         </motion.div>
       );
-    }
+    };
 
     const checkPlayable = (card: Card) => {
       if (!isMyTurn || gameState.specialAction.type !== 'none') return false;
