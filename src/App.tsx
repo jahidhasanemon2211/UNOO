@@ -323,7 +323,9 @@ export default function App() {
                       <button onClick={() => activeSocket.emit('add_bot', 1)} className="bg-purple-600 hover:bg-purple-500 text-white font-black py-2 px-4 rounded-full border-2 border-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.4)] transition-all text-xs uppercase transform active:scale-95">+1 BOT</button>
                       <button onClick={() => activeSocket.emit('add_bot', 4)} className="bg-purple-600 hover:bg-purple-500 text-white font-black py-2 px-4 rounded-full border-2 border-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.4)] transition-all text-xs uppercase transform active:scale-95">+4 BOTS</button>
                       <button onClick={() => activeSocket.emit('add_bot', 6)} className="bg-purple-600 hover:bg-purple-500 text-white font-black py-2 px-4 rounded-full border-2 border-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.4)] transition-all text-xs uppercase transform active:scale-95">+6 BOTS</button>
-                      <button onClick={() => activeSocket.emit('add_bot', 8)} className="bg-purple-600 hover:bg-purple-500 text-white font                    <button
+                      <button onClick={() => activeSocket.emit('add_bot', 8)} className="bg-purple-600 hover:bg-purple-500 text-white font-black py-2 px-4 rounded-full border-2 border-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.4)] transition-all text-xs uppercase transform active:scale-95">+8 BOTS</button>
+                    </div>
+                    <button
                       onClick={() => activeSocket.emit('start_game')}
                       className="bg-green-500 hover:bg-green-400 text-black border-t border-l border-white/20 font-black italic text-xl tracking-widest py-4 px-12 w-full md:w-auto rounded-full flex items-center justify-center transition-all active:translate-y-[4px] active:shadow-[0_2px_0_#15803d] mt-2"
                       style={{
@@ -368,11 +370,8 @@ export default function App() {
                       </span>
                     </div>
                   );
-                })}          {p.nickname} {p.id === activeSocket.id && <span className="text-white/40 ml-1">(You)</span>}
-                      </span>
-                    </div>
-                  );
                 })}
+              </div>
               </div>
            </div>
          </div>
