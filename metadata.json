@@ -1,0 +1,6 @@
+{
+  "name": "UNO Multiplayer",
+  "description": "A real-time multiplayer UNO card game for 10+ players",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
