@@ -541,7 +541,164 @@ export default function App() {
 
           {/* Central Play Area */}
           <div className="flex-grow min-h-0 relative flex flex-col items-center justify-center px-4 md:px-8 mt-24 mb-4">
-             </AnimatePresence>
+             {/* Outer Table Rim (Wooden Bezel) */}
+             <div 
+               className="w-full max-w-4xl h-full min-h-[350px] md:min-h-[400px] bg-[#2E1A0F] rounded-[45px] p-[10px] md:p-[14px] shadow-[0_35px_70px_rgba(0,0,0,0.9),inset_0_4px_10px_rgba(255,255,255,0.25)] border-b-[12px] border-r-[12px] border-black/50 relative z-10 flex items-center justify-center overflow-visible" 
+               style={{ transformStyle: 'preserve-3d', perspective: '1200px', transform: 'rotateX(18deg) rotateY(-2deg)' }}
+             >
+               {/* Inner Felt Surface */}
+               <div className="w-full h-full bg-gradient-to-b from-[#0F5A3E] to-[#093D28] rounded-[35px] border-2 border-black/40 flex flex-col md:flex-row items-center justify-center relative overflow-visible shadow-[inset_0_12px_30px_rgba(0,0,0,0.85)] p-8">
+                 {/* Felt Texture Pattern */}
+                 <div className="absolute inset-0 opacity-[0.03] pointer-events-none rounded-[35px] overflow-hidden" style={{ backgroundImage: 'radial-gradient(circle at center, white 1px, transparent 1px)', backgroundSize: '16px 16px' }}></div>
+                 {/* Felt Golden Inner Ring */}
+                 <div className="absolute inset-4 border border-yellow-600/15 rounded-[28px] pointer-events-none"></div>
+
+                 <AnimatePresence>
+                  {isDealing && (
+                    <motion.div className="fixed inset-0 z-[100] pointer-events-none flex items-center justify-center">
+                      {Array.from({ length: Math.min(gameState.players.length * 7, 28) }).map((_, i) => {
+                        const pIdx = i % gameState.players.length;
+                        const pId = gameState.players[pIdx].id;
+                        const isMe = pId === activeSocket.id;
+                        const targetX = isMe ? 0 : (pIdx - gameState.players.length/2)*50;
+                        return (
+                            <motion.div
+                              key={i}
+                              initial={{ scale: 0, opacity: 0 }}
+                              animate={{ scale: [0, 1.2, 0.5], x: [0, targetX/2, targetX], y: [0, (isMe ? 200 : -200), (isMe ? window.innerHeight/2 + 200 : -window.innerHeight/2 - 200)], rotate: 360, opacity: [0, 1, 0] }}
+                              transition={{ duration: 0.8, delay: i * 0.05, ease: "easeInOut" }}
+                              className="absolute w-16 h-24 md:w-[90px] md:h-[135px] bg-[#7f1d1d] rounded-[8px] md:rounded-[12px] border-[3px] border-white flex items-center justify-center shadow-2xl"
+                            >
+                               <div className="absolute inset-1 border border-yellow-500/20 rounded-lg pointer-events-none"></div>
+                               <div className="text-xl md:text-2xl font-black italic text-white/40 rotate-45 drop-shadow-md">UNO</div>
+                            </motion.div>
+                        );
+                      })}
+                    </motion.div>
+                  )}
+                 </AnimatePresence>
+                 
+                 {/* Funny Text Popup Overlay */}
+                <AnimatePresence>
+                  {funnyText && (
+                    <motion.div
+                      key={funnyText.id}
+                      initial={{ opacity: 0, scale: 0.5, y: 50, rotate: -5 }}
+                      animate={{ opacity: 1, scale: 1, y: 0, rotate: 0 }}
+                      exit={{ opacity: 0, scale: 0.8, y: -50, filter: 'blur(10px)' }}
+                      transition={{ type: "spring", bounce: 0.6 }}
+                      className="absolute z-50 pointer-events-none"
+                      style={{ top: '15%', transform: 'translateZ(60px)' }}
+                    >
+                      <div className="bg-yellow-400 text-black border-4 border-black font-black text-xl md:text-3xl italic px-8 py-4 rounded-3xl shadow-[5px_5px_0_0_#000] rotate-[-5deg]">
+                        {funnyText.text}
+                      </div>
+                    </motion.div>
+                  )}
+                  {delayedText && (
+                    <motion.div
+                      key={delayedText.id}
+                      initial={{ opacity: 0, scale: 0.5, y: -50, rotate: 5 }}
+                      animate={{ opacity: 1, scale: 1, y: 0, rotate: 0 }}
+                      exit={{ opacity: 0, scale: 0.8, y: 50, filter: 'blur(10px)' }}
+                      transition={{ type: "spring", bounce: 0.6 }}
+                      className="absolute z-45 pointer-events-none"
+                      style={{ top: '25%', transform: 'translateZ(70px)' }}
+                    >
+                      <div className="bg-red-500 text-white border-4 border-white font-black text-lg md:text-2xl italic px-8 py-4 rounded-3xl shadow-[5px_5px_0_0_#fff] rotate-[3deg]">
+                        {delayedText.text}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+                
+                <div className="flex items-center gap-8 md:gap-16 z-10 scale-95 md:scale-100 mt-4 md:mt-0" style={{ transform: 'translateZ(15px)', transformStyle: 'preserve-3d' }}>
+                  {/* Draw Pile Deck Stack */}
+                  <div className="relative group cursor-pointer" style={{ transformStyle: 'preserve-3d' }} onClick={() => { if(isMyTurn && gameState.specialAction.type === 'none') activeSocket.emit('draw_card') }}>
+                    {/* Background card stacks to simulate height/depth */}
+                    <div className="w-[64px] h-[96px] md:w-[90px] md:h-[135px] bg-[#5a1414] rounded-[8px] md:rounded-[12px] border-[2px] md:border-[4px] border-white/60 absolute top-[4px] left-[4px] rotate-[-2deg] opacity-40 shadow-md pointer-events-none" style={{ transform: 'translateZ(2px)' }}></div>
+                    <div className="w-[64px] h-[96px] md:w-[90px] md:h-[135px] bg-[#6b1818] rounded-[8px] md:rounded-[12px] border-[2px] md:border-[4px] border-white/80 absolute top-[2px] left-[2px] rotate-[1deg] opacity-70 shadow-lg pointer-events-none" style={{ transform: 'translateZ(4px)' }}></div>
+                    
+                    {/* Top card of the stack */}
+                    <div 
+                      className={`w-[64px] h-[96px] md:w-[90px] md:h-[135px] bg-[#7f1d1d] rounded-[8px] md:rounded-[12px] border-[3px] md:border-[5px] border-white flex flex-col items-center justify-center relative overflow-hidden transition-all duration-300 ${isMyTurn && gameState.specialAction.type === 'none' ? 'group-hover:-translate-y-2 group-hover:shadow-[0_15px_30px_rgba(0,0,0,0.6)] group-hover:border-yellow-400' : ''}`}
+                      style={{ 
+                        transform: 'translateZ(6px)', 
+                        boxShadow: '0 1px 0 #ccc, 0 2px 0 #bbb, 0 3px 0 #aaa, 0 5px 8px rgba(0,0,0,0.55), inset 0 0 15px rgba(0,0,0,0.4)',
+                        transformStyle: 'preserve-3d'
+                      }}
+                    >
+                      <div className="absolute inset-1 border border-yellow-500/20 rounded-lg pointer-events-none"></div>
+                      <div className="w-[85%] h-[65%] rounded-[50%] bg-red-600 flex items-center justify-center border-2 md:border-4 border-yellow-500 shadow-inner rotate-[-20deg]">
+                        <div className="text-xs md:text-2xl font-black italic text-white drop-shadow-md tracking-tighter rotate-[20deg]">UNO</div>
+                      </div>
+                      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-white/10 pointer-events-none z-10"></div>
+                      {isMyTurn && gameState.specialAction.type === 'none' && (
+                         <div className="absolute top-[50%] left-1/2 -translate-x-1/2 -translate-y-1/2 bg-green-500 text-white px-1.5 py-[2px] rounded text-[6px] md:text-[8px] font-black italic tracking-widest shadow-lg pointer-events-none border border-black z-20" style={{ transform: 'translate(-50%, -50%) translateZ(10px) rotate(-5deg)' }}>DRAW</div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Discard Pile Stack */}
+                  <div className="relative w-[64px] h-[96px] md:w-[90px] md:h-[135px] shrink-0" style={{ transformStyle: 'preserve-3d' }}>
+                    {discardPileUI.map((c, i) => (
+                      <motion.div
+                        key={c.key}
+                        initial={{ scale: 1.5, rotateY: 180, opacity: 0, y: -200 }}
+                        animate={{ scale: 1, rotateY: 0, rotateZ: c.rotate, x: c.x, y: c.y, opacity: 1 }}
+                        transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                        className="absolute inset-0 z-10"
+                        style={{ 
+                          zIndex: i + 10,
+                          transform: `translateZ(${i * 1.5}px)` // Stack height in 3D space
+                        }}
+                      >
+                        {renderCard(c, undefined, undefined, "w-[64px] h-[96px] md:w-[90px] md:h-[135px]")}
+                      </motion.div>
+                    ))}
+                    
+                    {/* Active Color Indicator */}
+                    {gameState.currentColor && (
+                      <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="absolute -right-8 md:-right-14 top-1/2 -translate-y-1/2 flex flex-col items-center gap-1 z-50 pointer-events-none" style={{ transform: 'translateZ(40px)' }}>
+                        <div className="text-[7px] md:text-[9px] uppercase font-black tracking-widest text-white/70 drop-shadow-md">COLOR</div>
+                        <div className="w-6 h-6 md:w-8 md:h-8 rounded-full border-2 md:border-[3px] border-white shadow-2xl" style={{ backgroundColor: colorHexMap[gameState.currentColor] }} />
+                      </motion.div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="absolute bottom-4 flex items-center gap-3 px-5 py-1.5 bg-black/60 backdrop-blur rounded-full border border-white/10 z-10" style={{ transform: 'translateZ(10px)' }}>
+                   <span className="text-[7px] md:text-[9px] uppercase tracking-[0.2em] text-white/60 font-bold hidden sm:block">Direction</span>
+                   <span className="text-[9px] font-black text-white px-2 py-0.5 rounded bg-white/10">{gameState.direction === 1 ? 'CLOCKWISE' : 'COUNTER'}</span>
+                   <div className={`text-green-400 font-bold text-xs md:text-sm ${gameState.direction === -1 ? 'scale-x-[-1]' : ''}`}>↻</div>
+                </div>
+
+                <AnimatePresence>
+                  {gameState.specialAction.type === 'choosing_color' && isMyTurn && (
+                    <motion.div initial={{ opacity: 0, scale: 0.9, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.9, y: 20 }} className="absolute z-30 inset-0 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 overflow-hidden rounded-[30px]" style={{ transform: 'translateZ(30px)' }}>
+                      <div className="bg-[#151515] border border-white/20 p-6 md:p-8 rounded-[30px] shadow-2xl shrink-0 flex flex-col items-center">
+                        <h3 className="text-lg md:text-xl font-black italic uppercase tracking-widest mb-6 text-center drop-shadow-md">Select Color</h3>
+                        <div className="grid grid-cols-2 gap-4">
+                          {(['Red', 'Blue', 'Green', 'Yellow'] as const).map(c => (
+                            <button
+                              key={c}
+                              onClick={() => activeSocket.emit('choose_color', c)}
+                              className={`w-16 h-16 md:w-24 md:h-24 rounded-2xl border-[4px] md:border-[6px] shadow-2xl relative overflow-hidden group active:scale-95 transition-all
+                                ${c === 'Red' ? 'bg-red-600 border-red-400 hover:border-white' : 
+                                  c === 'Blue' ? 'bg-blue-600 border-blue-400 hover:border-white' : 
+                                  c === 'Green' ? 'bg-green-500 border-green-300 hover:border-white' : 
+                                  'bg-yellow-500 border-yellow-300 hover:border-white text-black'}`}
+                            >
+                              <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity"></div>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+               </div>
+             </div>
            </div>
          </div>
 
